@@ -1,5 +1,5 @@
 # Quizengine
-A basic quiz engine using [NodeJS](https://nodejs.org), [ExpressJS](https://expressjs.com), Postgres
+A basic quiz engine using [NodeJS](https://nodejs.org), [ExpressJS](https://expressjs.com) & Postgres.
 Includes some basic functional tests with [Jest](https://jestjs.io).
 Project is dockerised so requires docker and docker-compose to run!
 
