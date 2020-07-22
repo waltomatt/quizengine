@@ -26,5 +26,5 @@ SESSION_SECRET
 
 ### First time running (creates database tables)
 ```
-$ ./setup.sh
+$ ./scripts/setup.sh
 ```
