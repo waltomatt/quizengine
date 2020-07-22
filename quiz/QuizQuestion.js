@@ -10,7 +10,6 @@ const db = require('db')
 
 /** Class representing a question within a quiz */
 class QuizQuestion {
-
   /**
    * Create a QuizQuestion
    * @param {number} id - The ID of an existing question
@@ -43,7 +42,7 @@ class QuizQuestion {
 
   /**
    * Sets the questions's associated quiz
-   * @param {Quiz} quiz - The question's associated quiz 
+   * @param {Quiz} quiz - The question's associated quiz
    */
   setQuiz (quiz) {
     this.quiz_id = quiz.id
@@ -79,7 +78,7 @@ class QuizQuestion {
   /**
    * Adds an answer to this question
    * @param {string} answer - The answer text
-   * @param {boolean} correct 
+   * @param {boolean} correct
    */
   async addAnswer (answer, correct) {
     const { rows } = await db.query(`
@@ -110,7 +109,7 @@ class QuizQuestion {
 
   /**
    * Returns a QuizQuestion instance for a given database row
-   * @param {Object} row 
+   * @param {Object} row
    * @returns {QuizQuestion}
    */
   static fromRow (row) {

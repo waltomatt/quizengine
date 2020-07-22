@@ -43,7 +43,7 @@ class Quiz {
 
   /**
    * Sets the name of the quiz
-   * @param {string} name 
+   * @param {string} name
    */
   async setName (name) {
     this.name = name
@@ -67,7 +67,7 @@ class Quiz {
 
   /**
    * Gets a list of questions completed by a given user
-   * @param {string} user 
+   * @param {string} user
    */
   async getCompletedQuestions (user) {
     const { rows } = await db.query(`
@@ -85,7 +85,7 @@ class Quiz {
 
   /**
    * Gets the next question for a given user, or false if all are completed
-   * @param {string} user 
+   * @param {string} user
    * @returns {QuizQuestion|boolean} - The next question (or false for no next question)
    */
   async getNextQuestion (user) {
@@ -223,7 +223,7 @@ class Quiz {
   }
 
   /**
-   * Gets all quizzes 
+   * Gets all quizzes
    * @returns {Quiz[]} - An array of quizzes
    */
   static async getAll () {
@@ -233,10 +233,10 @@ class Quiz {
 
   /**
    * Converts a row from a database query into a Quiz object
-   * @param {Object} row 
+   * @param {Object} row
    * @returns {Quiz}
    */
-  static async fromRow(row) {
+  static async fromRow (row) {
     const quiz = new Quiz(row.id)
     quiz.setName(row.name)
 
@@ -245,7 +245,7 @@ class Quiz {
 
   /**
    * Verifies that a given quizID exists
-   * @param {number} id 
+   * @param {number} id
    * @returns {boolean}
    */
   static async exists (id) {
