@@ -14,10 +14,9 @@ Some functional tests are present although due to time constraints I didn't crea
 ```
 $ npm install -D
 $ npm test
-```
+``` 
 
-### Environment variables
-
+### Environment variables
 ```
 ADMIN_PASSWORD # the password for the admin portal
 POSTGRES_PASSWORD
