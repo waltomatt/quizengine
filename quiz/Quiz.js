@@ -229,8 +229,8 @@ class Quiz {
    * @returns {Quiz[]} - An array of quizzes
    */
   static async getAll (db) {
-    const { rows } = await this.db.query('SELECT * FROM quiz')
-    return rows.map(row => Quiz.fromRow(row))
+    const { rows } = await db.query('SELECT * FROM quiz')
+    return rows.map(row => Quiz.fromRow(db, row))
   }
 
   /**
@@ -239,7 +239,7 @@ class Quiz {
    * @param {Object} row
    * @returns {Quiz}
    */
-  static async fromRow (db, row) {
+  static fromRow (db, row) {
     const quiz = new Quiz(db, row.id)
     quiz.setName(row.name)
 

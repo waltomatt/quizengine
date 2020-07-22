@@ -4,7 +4,7 @@
   "description": "A simple quiz platform",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/standard/bin/cmd.js && node node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,20 @@
   "homepage": "https://github.com/waltomatt/quizengine#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "ejs": "^3.1.3",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "pg": "^8.3.0"
+    "pg": "^8.3.0",
+    "validator": "^13.1.1"
+  },
+  "standard": {
+    "ignore": [
+      "**/__test__/**"
+    ]
+  },
+  "devDependencies": {
+    "jest": "^26.1.0",
+    "standard": "^14.3.4",
+    "supertest": "^4.0.2"
   }
 }

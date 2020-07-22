@@ -1,10 +1,9 @@
 const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
+const path = require('path')
 
 const app = express()
-
-db.init()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
@@ -17,5 +16,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }))
+
+app.use('/quiz', require('quiz/router'))
 
 module.exports = app

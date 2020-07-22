@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%-include("../partials/includes") %>
+        <title>All the quizzes</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h2 class="mb-4">Quizzes</h2>
+                <% for (const quiz of quizzes) { %>
+                    <div class="quiz">
+                        <a href="/quiz/<%=quiz.id%>"><h4><%=quiz.name%></h4></a>
+                    </div>
+                <% } %>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <a href="/admin" class="btn btn-primary">Manage Quizzes</a>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

@@ -6,8 +6,10 @@
     index.js -  server entry point
 */
 
-const app = require('app')
+const app = require('./app')
 const db = require('db')
 
 db.init()
-app.listen(8080)
+app.listen(8080, () => {
+  console.log('Web server listening on port 8080')
+})
