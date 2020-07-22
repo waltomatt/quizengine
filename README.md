@@ -5,6 +5,9 @@ Project is dockerised so requires docker and docker-compose to run!
 
 ### Plan
 
+![Basic ER diagram](https://github.com/waltomatt/quizengine/blob/master/plan/whiteboard-er.jpg?raw=true)
+![Some pseudocode for algorithms](https://github.com/waltomatt/quizengine/blob/master/plan/pseudo.jpg?raw=true)
+
 ### Testing
 Some functional tests are present although due to time constraints didn't create unit tests for the class functions. Also uses [standard](https://standardjs.com/) to check code style.
 
