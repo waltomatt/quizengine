@@ -14,7 +14,6 @@ Some functional tests are present although due to time constraints I didn't crea
 ```
 $ npm install -D
 $ npm test
-
 ```
 
 ### Environment variables
