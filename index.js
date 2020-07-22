@@ -10,8 +10,11 @@ const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const path = require('path')
+const db = require('db')
 
 const app = express()
+
+db.init()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())

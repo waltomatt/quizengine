@@ -1,4 +1,3 @@
-const db = require('db')
 const QuizQuestion = require('./QuizQuestion')
 
 /**
@@ -22,9 +21,11 @@ const QuizQuestion = require('./QuizQuestion')
 class Quiz {
   /**
    * Create a quiz instance
+   * @param {Object} db - The database object
    * @param {number} id - The ID of an existing quiz
    */
-  constructor (id) {
+  constructor (db, id) {
+    this.db = db
     this.id = id
   }
 
@@ -32,7 +33,7 @@ class Quiz {
    * Inserts a new quiz into the database
    */
   async create () {
-    const { rows } = await db.query(`
+    const { rows } = await this.db.query(`
       INSERT INTO "quiz" ("name")
       VALUES($1)
       RETURNING id
@@ -54,7 +55,7 @@ class Quiz {
    * @returns {QuizQuestion[]} An array of questions
    */
   async getQuestions () {
-    const { rows } = await db.query(`
+    const { rows } = await this.db.query(`
       SELECT *
       FROM "quiz_question" 
       WHERE "quiz_id"=$1
@@ -62,7 +63,7 @@ class Quiz {
     `, [this.id])
 
     // Map each object from the postgres to an instance of QuizQuestion
-    return rows.map(row => QuizQuestion.fromRow(row))
+    return rows.map(row => QuizQuestion.fromRow(this.db, row))
   }
 
   /**
@@ -70,7 +71,7 @@ class Quiz {
    * @param {string} user
    */
   async getCompletedQuestions (user) {
-    const { rows } = await db.query(`
+    const { rows } = await this.db.query(`
       SELECT q.*, a.answer_id AS answer
       FROM "quiz_user_answer" a, "quiz_question" q 
       WHERE 
@@ -80,7 +81,7 @@ class Quiz {
       ORDER BY q.id ASC
     `, [user, this.id])
 
-    return rows.map(row => QuizQuestion.fromRow(row))
+    return rows.map(row => QuizQuestion.fromRow(this.db, row))
   }
 
   /**
@@ -108,7 +109,7 @@ class Quiz {
    * Deletes the quiz from the database
    */
   async remove () {
-    await db.query(`
+    await this.db.query(`
       DELETE FROM "quiz"
       WHERE "id"=$1
     `, [this.id])
@@ -120,7 +121,7 @@ class Quiz {
    */
   async getStatistics () {
     // get all the answers for all the users
-    const { rows: answers } = await db.query(`
+    const { rows: answers } = await this.db.query(`
       SELECT 
         q."id",
         q."question",
@@ -224,20 +225,22 @@ class Quiz {
 
   /**
    * Gets all quizzes
+   * @param {Object} db - The database object
    * @returns {Quiz[]} - An array of quizzes
    */
-  static async getAll () {
-    const { rows } = await db.query('SELECT * FROM quiz')
+  static async getAll (db) {
+    const { rows } = await this.db.query('SELECT * FROM quiz')
     return rows.map(row => Quiz.fromRow(row))
   }
 
   /**
    * Converts a row from a database query into a Quiz object
+   * @param {Object} db - The database object
    * @param {Object} row
    * @returns {Quiz}
    */
-  static async fromRow (row) {
-    const quiz = new Quiz(row.id)
+  static async fromRow (db, row) {
+    const quiz = new Quiz(db, row.id)
     quiz.setName(row.name)
 
     return quiz
@@ -245,10 +248,11 @@ class Quiz {
 
   /**
    * Verifies that a given quizID exists
+   * @param {Object} db - The database object
    * @param {number} id
    * @returns {boolean}
    */
-  static async exists (id) {
+  static async exists (db, id) {
     const { rows } = await db.query('SELECT id FROM quiz WHERE id=$1', [id])
     return (rows.length !== 0)
   }

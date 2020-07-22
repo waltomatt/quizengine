@@ -9,12 +9,7 @@ const init = async () => {
 
 /** Wraps a postgres query */
 const query = async (text, values) => {
-  const res = await client.query(text, values)
-  if (res) {
-    return res
-  } else {
-    return false
-  }
+ return await client.query(text, values)
 }
 
 module.exports = {

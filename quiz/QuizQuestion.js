@@ -1,5 +1,3 @@
-const db = require('db')
-
 /**
  * @typedef {Object} QuizQuestionAnswer
  * @param {number} id
@@ -12,9 +10,11 @@ const db = require('db')
 class QuizQuestion {
   /**
    * Create a QuizQuestion
+   * @param {Object} db - The database object
    * @param {number} id - The ID of an existing question
    */
-  constructor (id) {
+  constructor (db, id) {
+    this.db = db
     this.id = id
   }
 
@@ -22,7 +22,7 @@ class QuizQuestion {
    * Inserts the new question into the database
    */
   async create () {
-    const { rows } = await db.query(`
+    const { rows } = await this.db.query(`
       INSERT INTO "quiz_question" 
           ("quiz_id", "question")
       VALUES ($1, $2)
@@ -53,7 +53,7 @@ class QuizQuestion {
    * @returns {QuizQuestionAnswer[]} - An array of answers
    */
   async getAnswers () {
-    const { rows } = await db.query(`
+    const { rows } = await this.db.query(`
       SELECT * FROM "quiz_question_answer"
       WHERE "question_id" = $1    
     `, [this.id])
@@ -67,7 +67,7 @@ class QuizQuestion {
    * @returns {boolean}
    */
   async isValidAnswer (answer) {
-    const { rows } = await db.query(`
+    const { rows } = await this.db.query(`
       SELECT "id" FROM "quiz_question_answer"
       WHERE "question_id"=$1 AND "id"=$2
     `, [this.id, answer])
@@ -81,7 +81,7 @@ class QuizQuestion {
    * @param {boolean} correct
    */
   async addAnswer (answer, correct) {
-    const { rows } = await db.query(`
+    const { rows } = await this.db.query(`
       INSERT INTO "quiz_question_answer" 
           ("question_id", "answer", "correct")
       VALUES 
@@ -99,7 +99,7 @@ class QuizQuestion {
    * @param {number} answerId - The ID of the answer
    */
   async doAnswer (user, answerId) {
-    await db.query(`
+    await this.db.query(`
       INSERT INTO "quiz_user_answer" 
           ("email", "question_id", "answer_id")
       VALUES ($1, $2, $3)
@@ -109,11 +109,12 @@ class QuizQuestion {
 
   /**
    * Returns a QuizQuestion instance for a given database row
+   * @param {Object} db - The database object
    * @param {Object} row
    * @returns {QuizQuestion}
    */
-  static fromRow (row) {
-    const question = new QuizQuestion(row.id)
+  static fromRow (db, row) {
+    const question = new QuizQuestion(db, row.id)
     question.question = row.question
     question.quiz_id = row.quiz_id
 
