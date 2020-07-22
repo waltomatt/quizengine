@@ -1,0 +1,19 @@
+{
+  "name": "quizengine",
+  "version": "1.0.0",
+  "description": "A simple quiz platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/waltomatt/quizengine.git"
+  },
+  "author": "Matt Walton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/waltomatt/quizengine/issues"
+  },
+  "homepage": "https://github.com/waltomatt/quizengine#readme"
+}
