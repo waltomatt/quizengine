@@ -9,18 +9,30 @@ services:
     postgresdb:
         image: 'postgres:12'
         environment: 
-            POSTGRES_PASSWORD: 'temppass'
+            - POSTGRES_PASSWORD
         volumes:
             - pg-data:/var/lib/postgresql/data
         ports:
             - 5432:5432
 
-    adminer:
-        image: adminer
-        ports:
-            - 8000:8080
-        links: 
+    quizengine: 
+        build: ./src/
+        ports: 
+            - '8080:8080'
+        links:
             - 'postgresdb:db'
+        environment:
+            - POSTGRES_PASSWORD
+            - SESSION_SECRET
+            - ADMIN_PASSWORD
+
+    #adminer for quick & easy pg administration
+    # adminer:
+    #     image: adminer
+    #     ports:
+    #         - 8000:8080
+    #     links: 
+    #         - 'postgresdb:db'
 
 volumes:
     pg-data:

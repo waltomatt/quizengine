@@ -1,9 +1,13 @@
 const { Client } = require('pg')
-const client = new Client()
+const client = new Client({
+  host: 'db',
+  user: 'postgres',
+  password: process.env.POSTGRES_PASSWORD,
+  database: 'quizengine'
+})
 
 /** Performs a Postgres database connection */
 const init = async () => {
-  // credentials are pulled from environment variables: PGHOST, PGUSER, PGDATABASE, PGPASSWORD
   await client.connect()
 }
 
