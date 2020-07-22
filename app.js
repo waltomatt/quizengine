@@ -11,12 +11,13 @@ app.use(express.json())
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
 app.use(session({
-  secret: 'not a very good secret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
 }))
 
 app.use('/quiz', require('quiz/router'))
+app.use('/admin', require('admin/router'))
 
 module.exports = app

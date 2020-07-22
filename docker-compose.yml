@@ -1,0 +1,26 @@
+version: '3.3'
+
+#
+# quizengine docker-compose file
+# spawns postgres server and node application
+#
+
+services: 
+    postgresdb:
+        image: 'postgres:12'
+        environment: 
+            POSTGRES_PASSWORD: 'temppass'
+        volumes:
+            - pg-data:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+
+    adminer:
+        image: adminer
+        ports:
+            - 8000:8080
+        links: 
+            - 'postgresdb:db'
+
+volumes:
+    pg-data:
