@@ -22,7 +22,7 @@ const isAuthenticated = (req, res, next) => {
 }
 
 router.get('/auth', (req, res) => {
-  res.render('password')
+  res.render('admin/password')
 })
 
 router.post('/auth', (req, res) => {
@@ -66,8 +66,7 @@ router.post('/add', isAuthenticated, async (req, res) => {
     }
   }
 
-  res.send(200)
- 
+  res.status(200).end()
 })
 
 router.post('/delete', isAuthenticated, async (req, res) => {
@@ -79,7 +78,18 @@ router.post('/delete', isAuthenticated, async (req, res) => {
 
     res.redirect('/admin')
   } else {
-    res.status(404)
+    res.status(404).end()
+  }
+})
+
+router.get('/user', isAuthenticated, async (req, res) => {
+  const email = (req.query.email || '').toString().toLowerCase()
+
+  if (email) {
+    const quizzes = await Quiz.getUserQuizzes(db, email)
+    res.render('admin/user', { email: email, quizzes })
+  } else {
+    res.status(400).send()
   }
 })
 

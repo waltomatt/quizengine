@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%-include("../partials/includes") %>
+        <title>Quiz admin</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h2 class="mb-4">User: <%=email%></h2>
+                
+                <% for (const name in quizzes) {
+                    const quiz = quizzes[name]
+                %>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5><%=name%></h5>
+                            <p>Scored: <%=quiz.score.count%>/<%=quiz.answers.length%> (<%=quiz.score.percentage%>%)</p>  
+                            
+                            <table class="table">
+                                <tr>
+                                    <th>Question</th>
+                                    <th>Answer</th>
+                                </tr>
+
+                            <% for (const answer of quiz.answers) { %>
+                                <tr class="<%=answer.correct ? 'table-success' : 'table-danger'%>">
+                                    <td><%=answer.question%></td>
+                                    <td><%=answer.answer%></td>
+                                </tr>
+                            <% } %>
+                            </table>
+                        </div>
+                    </div>
+                <% } %>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

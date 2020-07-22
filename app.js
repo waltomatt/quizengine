@@ -20,4 +20,6 @@ app.use(session({
 app.use('/quiz', require('quiz/router'))
 app.use('/admin', require('admin/router'))
 
+// redirect from root to /quiz
+app.get('/', (req, res) => res.redirect('/quiz'))
 module.exports = app

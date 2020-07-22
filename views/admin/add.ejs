@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%-include("../partials/includes") %>
+        <title>Quiz admin</title>
+    </head>
+
+    <body>
+        <div class="container mb-4" id="new-quiz">
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h2>New quiz</h2>
+
+                    <div class="form-group mt-4">
+                        <label>Quiz name</label>
+                        <input class="form-control" placeholder="A quiz name..." v-model="name">
+                    </div>
+
+                    <h3 class="mt-4">Questions</h3>
+
+                    <div class="card question mb-2" v-for="(q, i) in questions">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Question {{i+1}}</label>
+                                <input class="form-control" placeholder="A question..." v-model="q.question">
+                            </div>
+
+                            <table class="table">
+                                <tr>
+                                    <td><input class="form-control" placeholder="Answer 1" required v-model="q.answers[0]"></td>
+                                    <td><input type="radio" value="0" v-bind:name="'answer-correct-' + i" v-model="q.correct"></td>
+                                </tr>
+                                <tr>
+                                    <td><input class="form-control" placeholder="Answer 2" required v-model="q.answers[1]"></td>
+                                    <td><input type="radio" value="1" v-bind:name="'answer-correct-' + i" v-model="q.correct"></td>
+                                </tr>
+                                <tr>
+                                    <td><input class="form-control" placeholder="Answer 3" required v-model="q.answers[2]"></td>
+                                    <td><input type="radio" value="2" v-bind:name="'answer-correct-' + i" v-model="q.correct"></td>
+                                </tr>
+                                <tr>
+                                    <td><input class="form-control" placeholder="Answer 4" required v-model="q.answers[3]"></td>
+                                    <td><input type="radio" value="3" v-bind:name="'answer-correct-' + i" v-model="q.correct"></td>
+                                </tr>
+                            </table>
+
+                            <button class="btn btn-danger" v-if="i" v-on:click="removeQuestion(i)">Delete</button>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary mt-4" v-on:click="addNewQuestion">Add new question</button>
+                    <button class="btn btn-success mt-4" v-on:click="publish">Publish quiz</button>
+
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        <script type="text/javascript">
+            let NewQuiz;
+
+            $(document).ready(function() {
+                NewQuiz = new Vue({
+                    el: "#new-quiz",
+                    data: {
+                        name: "",
+                        questions: [
+                            
+                        ]
+                    },
+
+                    methods: {
+                        addNewQuestion: function() {
+                            NewQuiz.questions.push({
+                                question: "",
+                                correct: "0",
+                                answers: ["", "", "", ""]
+                            })
+                        },
+
+                        removeQuestion: function(index) {
+                            NewQuiz.questions.splice(index, 1)
+                        },
+
+                        publish: function() {                       
+                            fetch("/admin/add", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(NewQuiz._data)
+                            }).then((res) => {
+                                if (res.status == 200) {
+                                    window.location.href = "/admin"
+                                }
+                            })
+                        }
+                    }
+                })
+
+                NewQuiz.addNewQuestion()
+            })
+        </script>
+
+    </body>
+</html>

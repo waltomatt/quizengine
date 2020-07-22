@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%-include("../partials/includes") %>
+        <title>Quiz admin</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h2>Manage quizzes</h2>
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <form action="/admin/user" method="GET">
+                                <input type="text" class="form-control" placeholder="User email" name="email" required>
+                                <button type="submit" class="btn btn-primary mt-3">Lookup user quizzes</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped mt-4">
+                        <thead>
+                            <tr>
+                                <th>Quiz name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        <% for (const quiz of quizzes) { %>
+                            <tr>
+                                <td><%=quiz.name%></td>
+                                <td>
+                                    <form action="/admin/delete" method="POST">
+                                        <input type="hidden" name="quiz" value="<%=quiz.id%>">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-primary mt-4" href="/admin/add">Add new quiz</a>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

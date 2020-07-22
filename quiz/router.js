@@ -33,7 +33,7 @@ router.get('/email', async (req, res) => {
 })
 
 router.post('/email', async (req, res) => {
-  const email = (req.body.email || '').toString()
+  const email = (req.body.email || '').toString().toLowerCase()
 
   if (isEmail(email)) {
     req.session.email = email

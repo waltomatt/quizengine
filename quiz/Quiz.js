@@ -158,7 +158,7 @@ class Quiz {
       // we only want people who have completed the quiz all the way
       if (userAnswers[user].length !== numberOfQuestions) {
         delete userAnswers[user]
-        return
+        continue
       }
 
       userScores.push(this.calculateScore(userAnswers[user]).percentage)
@@ -255,6 +255,33 @@ class Quiz {
   static async exists (db, id) {
     const { rows } = await db.query('SELECT id FROM quiz WHERE id=$1', [id])
     return (rows.length !== 0)
+  }
+
+  /**
+   * Gets a complete list of quizzes completed & lists of answers for a given user
+   * @param {Object} db - The database object
+   * @param {string} email
+   * @returns {Object} - Object keyed with competed quiz names containing arrays of UserAnswers
+   */
+  static async getUserQuizzes (db, email) {
+    // get a list of quizzes the user has taken
+    const { rows } = await db.query(`
+      SELECT DISTINCT q.*
+      FROM "quiz" q, "quiz_question" qq, "quiz_user_answer" ua
+      WHERE
+        ua."email"=$1 AND
+        qq."id"=ua."question_id" AND
+        qq."quiz_id"=q."id"
+    `, [email])
+
+    const quizzes = rows.map(row => Quiz.fromRow(db, row))
+    const userQuizInfo = {}
+
+    for (const quiz of quizzes) {
+      userQuizInfo[quiz.name] = await quiz.getResult(email)
+    }
+
+    return userQuizInfo
   }
 }
 
