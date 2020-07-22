@@ -17,6 +17,7 @@ $ npm test
 ```
 
 ### Environment variables
+
 ```
 ADMIN_PASSWORD # the password for the admin portal
 POSTGRES_PASSWORD
