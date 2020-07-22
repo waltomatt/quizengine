@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/waltomatt/quizengine/issues"
   },
-  "homepage": "https://github.com/waltomatt/quizengine#readme"
+  "homepage": "https://github.com/waltomatt/quizengine#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1"
+  }
 }
