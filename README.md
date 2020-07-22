@@ -28,3 +28,10 @@ SESSION_SECRET
 ```
 $ ./scripts/setup.sh
 ```
+
+### Report
+There is a script built in which generates a report of all the quizzes completed & how many people scored within each 10% increment. This is passed to mail to send an email to the specified address
+
+```
+$ ./scripts/report.sh <email address>
+```
